@@ -73,10 +73,6 @@
 							
 							    <div class="file-list">
 							      <!-- PDF files will be dynamically added here -->
-							      <div class="file-item">
-							        <h3>Example PDF</h3>
-							        <a href="example.pdf" target="_blank">View PDF</a>
-							      </div>
 							    </div>
 
 							<script>
@@ -92,7 +88,7 @@
 								} else if (file.name.startsWith('ENG')) {
 							      file.category = 'ENG';
 								} else if (file.name.startsWith('MATH')) {
-							      file.category = 'MATH';    
+							      file.category = 'MATH';   
 								} else {
 							      file.category = 'uncategorized';
 							    }
@@ -102,15 +98,11 @@
 							
 							    // Categorize PDF files based on selected category
 							    function categorizeFiles(files, category) {
-							      if (category === 'all') {
+							      if (category === 'ALL') {
 							        return files;
 							      }
 							
-							      return files.filter(file => {
-							        // Implement your own categorization logic here
-							        return file.name.toLowerCase().includes(category);
-							      });
-							    }
+							      return files.filter(file => file.category.toLowerCase() === category.toLowerCase());
 							
 							    // Render PDF files in the file list
 							    function renderFileList(files) {
@@ -178,7 +170,7 @@
 								</form>
 								<ul class="icons">
 									<li><a href="https://wa.me/85261683325/" class="icon brands fa-whatsapp"><span class="label">Whatsapp</span></a></li>
-									<li><a href="mailto:anguswongpy@gmail.com" class="far fa-envelope"><span class="label">Email</span></a></li>
+									<li><a href="mailto:anguswongpy@gmail.com" class="far fa-envelope"><span class="label"></span></a></li>
 									<li><a href="https://www.instagram.com/anguswpy/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 								</ul>
 							</article>
