@@ -55,11 +55,101 @@
 						<!-- About -->
 							<article id="resources">
 								<h2 class="major">Resources</h2>
-								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
 								<p>Please read the <a href="#guidelines">guidelines</a> before accessing the resources.</p>
-								<div class="notion-embed">
-									<iframe src="https://on9.notion.site/M2-f75d2f0e4b504668acd647c9bee4dada frameborder="0"></iframe>
-								</div>
+								<main>
+							    <div class="category-selector">
+							      <label for="category-select">Category:</label>
+							      <select id="category-select">
+							        <option value="ALL">All</option>
+							        <option value="CHI">Chinese</option>
+							        <option value="ENG">English<option>
+								<option value="MATH">Mathematics<option>
+								<option value="PHY">Physics</option>
+							        <option value="CHEM">Chemistry<option>
+								<option value="BIO">Biology<option>
+							        <!-- Add more categories as needed -->
+							      </select>
+							    </div>
+							
+							    <div class="file-list">
+							      <!-- PDF files will be dynamically added here -->
+							      <div class="file-item">
+							        <h3>Example PDF</h3>
+							        <a href="example.pdf" target="_blank">View PDF</a>
+							      </div>
+							    </div>
+
+							<script>
+							    // Fetch PDF files from your GitHub repository
+							    async function fetchPdfFiles() {
+								const response = await fetch('https://api.github.com/repos/anguswpy/resources/contents/files');
+								const files = await response.json();
+							
+							      return files.filter(file => {
+							    // Implement your own logic to determine the category based on the file name or metadata
+							    if (file.name.startsWith('CHI')) {
+							      file.category = 'CHI';
+								} else if (file.name.startsWith('ENG')) {
+							      file.category = 'ENG';
+								} else if (file.name.startsWith('MATH')) {
+							      file.category = 'MATH';    
+								} else {
+							      file.category = 'uncategorized';
+							    }
+							    return file.name.endsWith('.pdf');
+							  });
+							    }
+							
+							    // Categorize PDF files based on selected category
+							    function categorizeFiles(files, category) {
+							      if (category === 'all') {
+							        return files;
+							      }
+							
+							      return files.filter(file => {
+							        // Implement your own categorization logic here
+							        return file.name.toLowerCase().includes(category);
+							      });
+							    }
+							
+							    // Render PDF files in the file list
+							    function renderFileList(files) {
+							      const fileListElement = document.querySelector('.file-list');
+							      fileListElement.innerHTML = '';
+							
+							      files.forEach(file => {
+							        const fileItem = document.createElement('div');
+							        fileItem.classList.add('file-item');
+							
+							        const fileLink = document.createElement('a');
+							        fileLink.href = file.download_url;
+							        fileLink.target = '_blank';
+							        fileLink.textContent = file.name;
+							
+							        const fileTitle = document.createElement('h3');
+							        fileTitle.textContent = file.name;
+							
+							        fileItem.appendChild(fileTitle);
+							        fileItem.appendChild(fileLink);
+							        fileListElement.appendChild(fileItem);
+							      });
+							    }
+							
+							    // Update the file list when the category is changed
+							    document.getElementById('category-select').addEventListener('change', async () => {
+							      const category = document.getElementById('category-select').value;
+							      const files = await fetchPdfFiles();
+							      const categorizedFiles = categorizeFiles(files, category);
+							      renderFileList(categorizedFiles);
+							    });
+							
+							    // Initial render of the file list
+							    (async () => {
+							      const files = await fetchPdfFiles();
+							      renderFileList(files);
+							    })();
+							  </script>
+									
 							</article>
 
 						<!-- Contact -->
@@ -88,7 +178,7 @@
 								</form>
 								<ul class="icons">
 									<li><a href="https://wa.me/85261683325/" class="icon brands fa-whatsapp"><span class="label">Whatsapp</span></a></li>
-									<li><a href="mailto:anguswongpy@gmail.com" class="icon brands fa-envelope"><span class="label">Email</span></a></li>
+									<li><a href="mailto:anguswongpy@gmail.com" class="far fa-envelope"><span class="label">Email</span></a></li>
 									<li><a href="https://www.instagram.com/anguswpy/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 								</ul>
 							</article>
@@ -353,6 +443,6 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
+			
 	</body>
 </html>
